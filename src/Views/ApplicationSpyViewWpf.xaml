@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="ArcmapSpy.Views.ApplicationSpyViewWpf"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ArcmapSpy.Views"
+             xmlns:viewmodel="clr-namespace:ArcmapSpy.ViewModels"
+             xmlns:treeviewmodel="clr-namespace:ArcmapSpy.ViewModels.TreeView"
+             mc:Ignorable="d"
+             Padding="6"
+             d:DesignHeight="300" d:DesignWidth="422.589">
+    <UserControl.DataContext>
+        <viewmodel:ApplicationSpyViewModel/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <DrawingImage x:Key="imgsrcCopy">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="#000000" Geometry="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="256"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TreeView Grid.Column="0" ItemsSource="{Binding RootNode.Children}" Padding="4"  BorderBrush="{x:Null}" UseLayoutRounding="False">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type treeviewmodel:TreeviewBranchViewModel}" ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <TextBlock Text="{Binding Title}" FontWeight="Normal" Foreground="#005CAD"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+
+                    <DataTemplate DataType="{x:Type treeviewmodel:TreeviewLeafViewModel}">
+                        <StackPanel Orientation="Horizontal" Margin="0,4,0,6">
+                            <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Margin="0,0,4,0" />
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Title}" FontWeight="Bold" Foreground="#005CAD" />
+                                <TextBlock Text="{Binding Text}" Foreground="#005CAD" MaxHeight="43">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </TreeView.Resources>
+
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <!-- Override background color of selected item -->
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="AliceBlue"/>
+                        </Style.Resources>
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        <Setter Property="FontWeight" Value="Normal" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent"/>
+            
+            <TextBox Grid.Column="2" Text="{Binding SelectedNodeInfo, Mode=OneWay}" Padding="4" IsReadOnly="True">
+            </TextBox>
+        </Grid>
+
+        <StatusBar Grid.Row="2" Background="Transparent" Height="30">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text = "{Binding HierarchyPath}" Padding="1" Background="#b9d6f3" IsReadOnly="True" BorderThickness="0"/>
+                <Button Command="{Binding CopyHierarchyPathCommand}" Margin="2 0 0 0" Padding="3" BorderThickness="0" ToolTip="Copy hierarchy to clipboard">
+                    <Image Source="{StaticResource imgsrcCopy}"/>
+                </Button>
+            </StackPanel>
+        </StatusBar>
+    </Grid>
+</UserControl>

@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="ArcmapSpy.Views.WorkspaceSpyViewWpf"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ArcmapSpy.Views"
+             xmlns:viewmodel="clr-namespace:ArcmapSpy.ViewModels"
+             mc:Ignorable="d" 
+             Padding="6" Loaded="UserControl_Loaded" Height="334.154" Width="415.385">
+    <UserControl.DataContext>
+        <viewmodel:WorkspaceSpyViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ToolBar
+            Grid.Row="0">
+            <ComboBox
+                ItemsSource="{Binding Path=Workspaces}"
+                SelectedValue="{Binding Path=SelectedWorkspace}"
+                DisplayMemberPath="Name"
+                MinWidth="164"
+            />
+        </ToolBar>
+
+        <Grid Margin="0 12 0 16" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Path"/>
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="WorkspacePath" Text="{Binding SelectedWorkspace.Path}" Margin="0 2 0 2" Padding="4 3 4 3" IsReadOnly="True" />
+            <Label Grid.Row="1" Grid.Column="0" Content="Comparison case sensitive"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedWorkspace.StringComparisonCaseSensitive}" Margin="0 2 0 2" Padding="4 3 4 3" IsReadOnly="True" />
+            <Label Grid.Row="2" Grid.Column="0" Content="Invalid characters for literals"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedWorkspace.InvalidCharactersForIdentifiers}" Margin="0 2 0 2" Padding="4 3 4 3" IsReadOnly="True" />
+        </Grid>
+
+        <TabControl
+            Grid.Row="2">
+            <TabItem Header="Sql functions" HorizontalAlignment="Left" Height="20" Margin="0" VerticalAlignment="Top" Width="96">
+                <DataGrid
+                    CanUserAddRows="False" ItemsSource="{Binding SelectedWorkspace.SqlFunctions}" FontSize="12" AutoGenerateColumns="False" AlternatingRowBackground="#FFE7F1FB" GridLinesVisibility="None" RowHeight="25" CanUserResizeRows="False" HeadersVisibility="Column" Padding="0" SelectionMode="Extended" CanUserReorderColumns="False" CanUserSortColumns="False" IsReadOnly="True">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Key}" ClipboardContentBinding="{x:Null}" Header="Function" Width="auto">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="#f0f0f0" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Value}" ClipboardContentBinding="{x:Null}" Header="Native name" Width="*">
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Special characters" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="110">
+                <DataGrid
+                    CanUserAddRows="False" ItemsSource="{Binding SelectedWorkspace.SpecialCharacters}" FontSize="12" AutoGenerateColumns="False" AlternatingRowBackground="#FFE7F1FB" GridLinesVisibility="None" RowHeight="25" CanUserResizeRows="False" HeadersVisibility="Column" Padding="0" SelectionMode="Extended" CanUserReorderColumns="False" CanUserSortColumns="False" IsReadOnly="True">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Key}" ClipboardContentBinding="{x:Null}" Header="Function" Width="auto">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="#f0f0f0" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Value}" ClipboardContentBinding="{x:Null}" Header="Character" Width="*">
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Reserved keywords" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="128">
+                <DataGrid
+                    CanUserAddRows="False" ItemsSource="{Binding SelectedWorkspace.ReservedWords}" FontSize="12" AutoGenerateColumns="False" AlternatingRowBackground="#FFE7F1FB" GridLinesVisibility="None" RowHeight="25" CanUserResizeRows="False" HeadersVisibility="Column" Padding="0" SelectionMode="Extended" CanUserReorderColumns="False" CanUserSortColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn  Binding="{Binding}" ClipboardContentBinding="{x:Null}" Header="Keyword" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
