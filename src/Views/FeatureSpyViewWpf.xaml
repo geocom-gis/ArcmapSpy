@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="ArcmapSpy.Views.FeatureSpyViewWpf"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ArcmapSpy.Views"
+             xmlns:viewmodel="clr-namespace:ArcmapSpy.ViewModels"
+             mc:Ignorable="d" 
+             Padding="6"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <viewmodel:FeatureSpyViewModel/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <DrawingImage x:Key="imgsrcGoto">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="#a9a9a9" Geometry="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5C3,3.89 3.9,3 5,3H19M18,11H9.5L13,7.5L11.58,6.08L5.66,12L11.58,17.92L13,16.5L9.5,13H18V11Z" />
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="imgsrcTooltip">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="#228b22" Geometry="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="imgsrcSelect">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="#a9a9a9" Geometry="M4,3H5V5H3V4A1,1 0 0,1 4,3M20,3A1,1 0 0,1 21,4V5H19V3H20M15,5V3H17V5H15M11,5V3H13V5H11M7,5V3H9V5H7M21,20A1,1 0 0,1 20,21H19V19H21V20M15,21V19H17V21H15M11,21V19H13V21H11M7,21V19H9V21H7M4,21A1,1 0 0,1 3,20V19H5V21H4M3,15H5V17H3V15M21,15V17H19V15H21M3,11H5V13H3V11M21,11V13H19V11H21M3,7H5V9H3V7M21,7V9H19V7H21Z" />
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ToolBar
+            Grid.Row="0">
+            <Button Command="{Binding JumpToLayerCommand}" Background="Transparent" BorderThickness="0" ToolTip="Jump to layer">
+                <Image Source="{StaticResource imgsrcGoto}"/>
+            </Button>
+            <Button Command="{Binding SelectFeatureCommand}" Background="Transparent" BorderThickness="0" ToolTip="Select feature">
+                <Image Source="{StaticResource imgsrcSelect}"/>
+            </Button>
+        </ToolBar>
+
+        <Grid Margin="0 12 0 16" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Layer"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LayerName}" Margin="0 2 0 2" Padding="4 3 4 3" IsReadOnly="True" />
+            <Label Grid.Row="1" Grid.Column="0" Content="Workspace"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding WorkspaceName}" Margin="0 2 0 2" Padding="4 3 4 3" IsReadOnly="True" />
+            <Label Grid.Row="2" Grid.Column="0" Content="Table"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding TableName}" Margin="0 2 0 2" Padding="4 3 4 3" IsReadOnly="True" />
+            <Label Grid.Row="3" Grid.Column="0" Content="ObjectId"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ObjectId}" Margin="0 2 0 2" Padding="4 3 4 3" IsReadOnly="True" />
+            <Label Grid.Row="4" Grid.Column="0" Content="GlobalId"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding GlobalId}" Margin="0 2 0 2" Padding="4 3 4 3" IsReadOnly="True" />
+        </Grid>
+        
+        <DataGrid
+            Grid.Row="2"
+            CanUserAddRows="False"
+            ItemsSource="{Binding ColumnValues}" FontSize="12" AutoGenerateColumns="False" AlternatingRowBackground="#FFE7F1FB" GridLinesVisibility="None" RowHeight="25" CanUserResizeRows="False" HeadersVisibility="Column" Padding="0" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" IsReadOnly="True"
+            >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{StaticResource imgsrcTooltip}" Margin="2" ToolTip="{Binding ColumnToolTip}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Background" Value="#f0f0f0" />
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding ColumnName}" ClipboardContentBinding="{x:Null}" Header="Column" Width="auto">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Background" Value="#f0f0f0" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Editable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="false">
+                                    <Setter Property="Foreground" Value="Gray" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSubtype, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="true">
+                                    <Setter Property="TextDecorations" Value="Underline" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Value}" ClipboardContentBinding="{x:Null}" Header="Value" Width="*">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Editable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="false">
+                                    <Setter Property="Foreground" Value="Gray" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,35 @@
+﻿<ESRI.Configuration xmlns="http://schemas.esri.com/Desktop/AddIns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>ArcmapSpy</Name>
+  <AddInID>{e6860651-3588-47ea-bf4f-17479c011f19}</AddInID>
+  <Description>Explores the internals of a running ArcMap instance.</Description>
+  <Version>2.0.0</Version>
+  <Image>Images\ArcmapSpy.png</Image>
+  <Author>Stoeckli Martin</Author>
+  <Company>Geocom Informatik AG</Company>
+  <Date>06.12.2018</Date>
+  <Targets>
+    <Target name="Desktop" version="10.5" />
+  </Targets>
+  <AddIn language="CLR" library="ArcmapSpy.dll" namespace="ArcmapSpy">
+    <ArcMap>
+      <Commands>
+        <Button id="Geocom_Informatik_AG_ArcmapSpy_LayerSpyCommand" class="LayerSpyCommand" message="Explores the table of content of the active map." caption="LayerSpy" tip="Explores the table of content of the active map." category="Geocom" />
+        <Button id="Geocom_Informatik_AG_ArcmapSpy_ApplicationSpyCommand" class="ApplicationSpyCommand" message="Explores the internals of the ArcMap IApplication instance." caption="ApplicationSpy" tip="Explores the internals of the ArcMap IApplication instance." category="Geocom" />
+        <Tool id="Geocom_Informatik_AG_ArcmapSpy_FeatureSpyTool" class="FeatureSpyTool" message="Picks a feature and shows information about it." caption="FeatureSpyPicker" tip="Picks a feature and shows information about it." category="Geocom" cursor="Images\FeatureSpyTool.cur" />
+        <Tool id="Geocom_Informatik_AG_ArcmapSpy_GeometrySpyTool" class="GeometrySpyTool" message="Picks a feature and shows information about its geometry." caption="GeometrySpyPicker" tip="Picks a feature and shows information about its geometry." category="Geocom" cursor="Images\FeatureSpyTool.cur" />
+        <Button id="Geocom_Informatik_AG_ArcmapSpy_WorkspaceSpyCommand" class="WorkspaceSpyCommand" message="Explores the workspaces." caption="WorkspaceSpy" tip="Explores the workspaces." category="Geocom" />
+      </Commands>
+      <Toolbars>
+        <Toolbar id="Geocom_Informatik_AG_ArcmapSpy_Geocom" caption="Geocom ArcmapSpy" showInitially="true">
+          <Items>
+            <Tool refID="Geocom_Informatik_AG_ArcmapSpy_LayerSpyCommand" />
+            <Tool refID="Geocom_Informatik_AG_ArcmapSpy_FeatureSpyTool" />
+              <Tool refID="Geocom_Informatik_AG_ArcmapSpy_WorkspaceSpyCommand" />
+            <Tool refID="Geocom_Informatik_AG_ArcmapSpy_ApplicationSpyCommand" />
+              <Tool refID="Geocom_Informatik_AG_ArcmapSpy_GeometrySpyTool" />
+          </Items>
+        </Toolbar>
+      </Toolbars>
+    </ArcMap>
+  </AddIn>
+</ESRI.Configuration>
