@@ -50,3 +50,8 @@ To build the AddIn from scratch:
 2. If you host the ArcMap dlls in a dedicated directory, edit the ArcmapSpy.csproj file and let the variable `<ArcmapDllPath>` point to this directory. The default directory is the standard path of an installed ArcMap 10.5.
 3. Build the project.
 4. Run ArcMap, a new toolbar should be available.
+
+------
+## Known issues
+
+None.
