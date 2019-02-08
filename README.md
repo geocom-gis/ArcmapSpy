@@ -47,9 +47,6 @@ The latest version of ArcmapSpy can be downloaded from the release section. A do
 
 To build the AddIn from scratch:
 1. Open the solution in VisualStudio with administrator privileges. VisualStudio 2015 is required when using the ArcMap 10.5 Dotnet SDK, other versions may be required when using different SDKs. The admin privileges are required, when the AddIn should be registered after compilation.
-2. If you host the ArcMap dlls in a dedicated directory, edit the ArcmapSpy.csproj file and let the variable <ArcmapDllPath> point to this directory. The default directory is the standard path of an installed ArcMap 10.5.
+2. If you host the ArcMap dlls in a dedicated directory, edit the ArcmapSpy.csproj file and let the variable `<ArcmapDllPath>` point to this directory. The default directory is the standard path of an installed ArcMap 10.5.
 3. Build the project.
 4. Run ArcMap, a new toolbar should be available.
-  
-------
-## Known issues
