@@ -6,8 +6,9 @@ You can ![download the latest version](https://github.com/geocom-gis/ArcmapSpy/r
 
 For more information please contact: support@geocom.ch.
 
-#### DISCLAMER: Please be aware this product is not supported. Further information can be found in the license file.
+#### DISCLAMER: Please be aware that this product is not supported. Further information can be found in the license file.
 
+------
 ## Tools
 
 ### LayerSpy
@@ -34,6 +35,10 @@ Examines a single feature like the ArcMap tool does, but offers a convenient pic
 
 Provides useful information about the currently open workspaces. Here you can find a list of supported SQL functions, reserved words, and more.
 
+------
+## Requirements
+
+------
 ## Installation and compilation
 
 The latest version of ArcmapSpy can be downloaded from the release section. A double click will install the AddIn in ArcMap.
@@ -43,3 +48,6 @@ To build the AddIn from scratch:
 2. If you host the ArcMap dlls in a dedicated directory, edit the ArcmapSpy.csproj file and let the variable <ArcmapDllPath> point to this directory. The default directory is the standard path of an installed ArcMap 10.5.
 3. Build the project.
 4. Run ArcMap, a new toolbar should be available.
+  
+------
+## Known issues
