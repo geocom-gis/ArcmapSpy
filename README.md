@@ -2,12 +2,18 @@
 
 ArcmapSpy is an AddIn for the Esri ArcMap software and provides insight into the internas of ArcObjects. It consists of several tools which are listed below, they are accessible from a stand-alone toolbar.
 
-You can ![download the latest version](https://github.com/geocom-gis/ArcmapSpy/releases/latest) of ArcmapSpy in the release section.
+You can [download the latest version](https://github.com/geocom-gis/ArcmapSpy/releases/latest) of ArcmapSpy in the release section.
 
 For more information please contact: support@geocom.ch.
 
-#### DISCLAMER: Please be aware this product is not supported. Further information can be found in the license file.
+#### DISCLAMER: Please be aware that this product is not supported. Further information can be found in the license file.
 
+------
+## Requirements
+
+Since this is an AddIn for the ArcGIS desktop, an installed version of ArcMap 10.5 or higher is required.
+
+------
 ## Tools
 
 ### LayerSpy
@@ -34,12 +40,13 @@ Examines a single feature like the ArcMap tool does, but offers a convenient pic
 
 Provides useful information about the currently open workspaces. Here you can find a list of supported SQL functions, reserved words, and more.
 
+------
 ## Installation and compilation
 
 The latest version of ArcmapSpy can be downloaded from the release section. A double click will install the AddIn in ArcMap.
 
 To build the AddIn from scratch:
-1. Open the solution in VisualStudio 2015 with administrator privileges. This version is required when using the ArcMap 10.5 Dotnet SDK, and the admin privileges are required, when the AddIn should be registered after compilation.
+1. Open the solution in VisualStudio with administrator privileges. VisualStudio 2015 is required when using the ArcMap 10.5 Dotnet SDK, other versions may be required when using different SDKs. The admin privileges are required, when the AddIn should be registered after compilation.
 2. If you host the ArcMap dlls in a dedicated directory, edit the ArcmapSpy.csproj file and let the variable <ArcmapDllPath> point to this directory. The default directory is the standard path of an installed ArcMap 10.5.
 3. Build the project.
 4. Run ArcMap, a new toolbar should be available.
