@@ -9,6 +9,9 @@ For more information please contact: support@geocom.ch.
 #### DISCLAMER: Please be aware that this product is not supported. Further information can be found in the license file.
 
 ------
+## Requirements
+
+------
 ## Tools
 
 ### LayerSpy
@@ -34,9 +37,6 @@ Examines a single feature like the ArcMap tool does, but offers a convenient pic
 ![WorkspaceSpy](screenshots/WorkspaceSpy.png)
 
 Provides useful information about the currently open workspaces. Here you can find a list of supported SQL functions, reserved words, and more.
-
-------
-## Requirements
 
 ------
 ## Installation and compilation
