@@ -1,6 +1,6 @@
 # ArcmapSpy
 
-ArcmapSpy is an AddIn for the Esri ArcMap software and provides insight into the internas of ArcObjects. It consists of several tools which are listed below, they are accessible from a stand-alone toolbar.
+ArcmapSpy is an AddIn for the Esri ArcMap software and provides insight into the internals of ArcObjects. It consists of several tools which are listed below, they are accessible from a stand-alone toolbar.
 
 You can [download the latest version](https://github.com/geocom-gis/ArcmapSpy/releases/latest) of ArcmapSpy in the release section.
 
