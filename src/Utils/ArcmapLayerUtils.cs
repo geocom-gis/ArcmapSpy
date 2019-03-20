@@ -89,7 +89,7 @@ namespace ArcmapSpy.Utils
         }
 
         /// <summary>
-        /// Gets the number of rows, belonging to a given layer.
+        /// Gets the number of rows of the table, belonging to a given layer.
         /// </summary>
         /// <param name="layer">Esri layer of the TOC</param>
         /// <returns>Number of rows or Null if the layer is invalid.</returns>
@@ -101,6 +101,29 @@ namespace ArcmapSpy.Utils
                 IQueryFilter queryFilter = new QueryFilterClass();
                 queryFilter.AddField(layer.FeatureClass.OIDFieldName);
                 return displayTable.DisplayTable.RowCount(queryFilter);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the number of rows, belonging to a given layer, filtered by the layer.
+        /// </summary>
+        /// <param name="layer">Esri layer of the TOC</param>
+        /// <returns>Number of rows or Null if the layer is invalid or not filtered.</returns>
+        public static int? GetFilteredLayerRowCount(IFeatureLayer layer)
+        {
+            IDisplayTable displayTable = (IDisplayTable)layer;
+            if ((layer.Valid) && (displayTable != null))
+            {
+                IFeatureLayerDefinition layerDefinition = layer as IFeatureLayerDefinition;
+                string filter = layerDefinition?.DefinitionExpression;
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    IQueryFilter queryFilter = new QueryFilterClass();
+                    queryFilter.WhereClause = filter;
+                    queryFilter.AddField(layer.FeatureClass.OIDFieldName);
+                    return displayTable.DisplayTable.RowCount(queryFilter);
+                }
             }
             return null;
         }
