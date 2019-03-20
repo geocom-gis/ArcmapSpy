@@ -62,6 +62,8 @@ namespace ArcmapSpy.ViewModels
                 if (sqlSyntax != null)
                 {
                     info.StringComparisonCaseSensitive = sqlSyntax.GetStringComparisonCase();
+                    info.IdentifierCaseSensitive = sqlSyntax.GetIdentifierCase();
+                    info.QuotedIdentifierCaseSensitive = sqlSyntax.GetDelimitedIdentifierCase();
                     info.InvalidCharactersForIdentifiers = sqlSyntax.GetInvalidCharacters();
 
                     foreach (var enumName in Enum.GetValues(typeof(esriSQLFunctionName)))

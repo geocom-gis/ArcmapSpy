@@ -4,6 +4,7 @@
 // along with this program. If not, see http://www.gnu.org/licenses/.
 
 using System.Collections.Generic;
+using System.Text;
 using ArcmapSpy.Utils;
 
 namespace ArcmapSpy.ViewModels
@@ -25,11 +26,36 @@ namespace ArcmapSpy.ViewModels
 
         public string Name { get; set; }
         public string Path { get; set; }
-        public bool StringComparisonCaseSensitive { get; set; }
-        public string InvalidCharactersForIdentifiers { get; set; }
 
+        public bool IdentifierCaseSensitive { get; set; }
+        public bool QuotedIdentifierCaseSensitive { get; set; }
+        public bool StringComparisonCaseSensitive { get; set; }
+
+        public string InvalidCharactersForIdentifiers { get; set; }
         public KeyValueList<string, string> SqlFunctions { get; private set; }
         public KeyValueList<string, string> SpecialCharacters { get; private set; }
         public List<string> ReservedWords { get; private set; }
+
+        public string CaseSensitive
+        {
+            get
+            {
+                string startQuote;
+                string endQuote;
+                GetQuotes(out startQuote, out endQuote);
+
+                StringBuilder result = new StringBuilder();
+                result.AppendLine(string.Format("Identifier:  {0}", IdentifierCaseSensitive));
+                result.AppendLine(string.Format("{0}Quoted identifier{1}:  {2}", startQuote, endQuote, QuotedIdentifierCaseSensitive));
+                result.AppendLine(string.Format("String comparison:  {0}",  StringComparisonCaseSensitive));
+                return result.ToString();
+            }
+        }
+
+        private void GetQuotes(out string startQuote, out string endQuote)
+        {
+            SpecialCharacters.TryGetValue("esriSQL_DelimitedIdentifierPrefix", out startQuote);
+            SpecialCharacters.TryGetValue("esriSQL_DelimitedIdentifierSuffix", out endQuote);
+        }
     }
 }
