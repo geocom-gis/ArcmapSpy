@@ -55,7 +55,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding Title}" ClipboardContentBinding="{x:Null}" Header="Title" Width="200"/>
                 <DataGridTextColumn Binding="{Binding Group}" ClipboardContentBinding="{x:Null}" Header="Group" Width="100"/>
-                <DataGridTextColumn Binding="{Binding RowCount}" ClipboardContentBinding="{x:Null}" Header="Rows" Width="40"/>
+                <DataGridTextColumn Binding="{Binding RowCount}" ClipboardContentBinding="{x:Null}" Header="Rows" Width="92"/>
                 <DataGridTextColumn Binding="{Binding TableName}" ClipboardContentBinding="{x:Null}" Header="Table name" Width="200"/>
                 <DataGridTextColumn Binding="{Binding Filter}" ClipboardContentBinding="{x:Null}" Header="Filter" Width="110"/>
                 <DataGridTextColumn Binding="{Binding Visible}" ClipboardContentBinding="{x:Null}" Header="Visible" Width="50"/>

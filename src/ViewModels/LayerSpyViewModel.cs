@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using ArcmapSpy.Utils;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Framework;
@@ -70,7 +71,11 @@ namespace ArcmapSpy.ViewModels
 
             IFeatureLayerDefinition layerDefinition = layer as IFeatureLayerDefinition;
             string filter = layerDefinition?.DefinitionExpression;
-            int? rowCount = ArcmapLayerUtils.GetLayerRowCount(layer);
+            int?[] rowCounts =
+            {
+                ArcmapLayerUtils.GetFilteredLayerRowCount(layer),
+                ArcmapLayerUtils.GetLayerRowCount(layer)
+            };
 
             return new LayerInfoViewModel
             {
@@ -78,7 +83,7 @@ namespace ArcmapSpy.ViewModels
                 Layer = layer,
                 TableName = tableName,
                 Filter = filter,
-                RowCount = rowCount
+                RowCount = string.Join(" / ", rowCounts.Where(item => item != null))
             };
         }
 

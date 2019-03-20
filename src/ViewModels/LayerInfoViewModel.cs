@@ -73,7 +73,7 @@ namespace ArcmapSpy.ViewModels
         /// <summary>
         /// Gets the number of rows of the current layer.
         /// </summary>
-        public int? RowCount { get; set; }
+        public string RowCount { get; set; }
 
         /// <summary>
         /// Gets the command which can show the matching layer in ArcMap.
