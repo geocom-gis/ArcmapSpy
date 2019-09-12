@@ -31,7 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ArcmapDllPath>$(MSBuildProgramFiles32)ArcGIS\Desktop10.5\bin</ArcmapDllPath>
+    <ArcmapDllPath>$(MSBuildProgramFiles32)\ArcGIS\Desktop10.6\bin</ArcmapDllPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,8 +76,6 @@
     </Reference>
     <Reference Include="ESRI.ArcGIS.Desktop.AddIns">
       <HintPath>$(ArcmapDllPath)\ESRI.ArcGIS.Desktop.AddIns.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Display">
       <HintPath>$(ArcmapDllPath)\ESRI.ArcGIS.Display.dll</HintPath>
@@ -120,8 +118,8 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ESRI.ArcGIS.SystemUI, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="ESRI.ArcGIS.SystemUI">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
