@@ -15,7 +15,7 @@ namespace ArcmapSpy.ViewModels
     /// <summary>
     /// Holds information about a single layer in the ArcMap TOC
     /// </summary>
-    public class LayerInfoViewModel
+    public class LayerInfoViewModel : BaseViewModel
     {
         private List<ILayer> _parentLayers;
 
@@ -25,6 +25,7 @@ namespace ArcmapSpy.ViewModels
         public LayerInfoViewModel()
         {
             JumpToLayerCommand = new RelayCommand(JumpToLayer);
+            RemoveScaleRangeCommand = new RelayCommand(RemoveScaleRange);
         }
 
         /// <summary>
@@ -54,6 +55,26 @@ namespace ArcmapSpy.ViewModels
                 foreach (ILayer parentLayer in ParentLayers)
                     result &= parentLayer.Visible;
                 return result;
+            }
+        }
+
+        public string ScaleRange
+        {
+            get
+            {
+                string minScale = null;
+                if (Layer.MinimumScale != 0.0)
+                    minScale = string.Format("1:{0}", Layer.MinimumScale);
+
+                string maxScale = null;
+                if (Layer.MaximumScale != 0.0)
+                    maxScale = string.Format("1:{0}", Layer.MaximumScale);
+
+                string scale = null;
+                if ((minScale != null) || (maxScale != null))
+                    scale = string.Format(" ({0}...{1})", minScale, maxScale);
+
+                return scale;
             }
         }
 
@@ -87,6 +108,27 @@ namespace ArcmapSpy.ViewModels
         {
             ArcmapLayerUtils.ExpandParentLayers(Layer, ArcmapUtils.GetFocusMap());
             ArcmapLayerUtils.SelectLayer(Layer, ArcMap.Application);
+        }
+
+        /// <summary>
+        /// Gets the command which can remove the scale range of the layer.
+        /// </summary>
+        public ICommand RemoveScaleRangeCommand { get; private set; }
+
+        /// <summary>
+        /// Removes the scale range of the layer.
+        /// </summary>
+        private void RemoveScaleRange()
+        {
+            Layer.MinimumScale = 0;
+            Layer.MaximumScale = 0;
+            RaisePropertyChanged(nameof(ScaleRange));
+            RaisePropertyChanged(nameof(RemoveScaleRangeCommandVisible));
+        }
+
+        public bool RemoveScaleRangeCommandVisible
+        {
+            get { return !string.IsNullOrEmpty(ScaleRange); }
         }
 
         /// <summary>

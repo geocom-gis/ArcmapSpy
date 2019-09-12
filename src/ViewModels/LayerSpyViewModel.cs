@@ -83,7 +83,7 @@ namespace ArcmapSpy.ViewModels
                 Layer = layer,
                 TableName = tableName,
                 Filter = filter,
-                RowCount = string.Join(" / ", rowCounts.Where(item => item != null))
+                RowCount = string.Join(" / ", rowCounts.Where(item => item != null)),
             };
         }
 

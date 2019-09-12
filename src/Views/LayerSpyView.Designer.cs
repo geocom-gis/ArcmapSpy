@@ -38,7 +38,7 @@
             this.wpfHost.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wpfHost.Location = new System.Drawing.Point(0, 0);
             this.wpfHost.Name = "wpfHost";
-            this.wpfHost.Size = new System.Drawing.Size(624, 441);
+            this.wpfHost.Size = new System.Drawing.Size(918, 441);
             this.wpfHost.TabIndex = 0;
             this.wpfHost.Child = this.tocSpyViewWpf1;
             // 
@@ -47,7 +47,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SkyBlue;
-            this.ClientSize = new System.Drawing.Size(624, 441);
+            this.ClientSize = new System.Drawing.Size(918, 441);
             this.Controls.Add(this.wpfHost);
             this.Name = "LayerSpyView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
