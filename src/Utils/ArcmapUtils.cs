@@ -59,13 +59,22 @@ namespace ArcmapSpy.Utils
         }
 
         /// <summary>
-        /// Refreshes the whole map, including all temporary graphics. This is a
-        /// relatively slow operation.
+        /// Refreshes the whole map, including all temporary graphics. This is a relatively slow
+        /// operation, consider to use <see cref="InvalidateMap"/> for repeated calls.
         /// </summary>
         /// <param name="focusMap">Map to refresh.</param>
         public static void RefreshMap(IMap focusMap)
         {
             (focusMap as IActiveView)?.Refresh();
+        }
+
+        /// <summary>
+        /// Instructs ArcMap to refresh the whole map, as soon as there is time for drawing.
+        /// </summary>
+        /// <param name="focusMap">Map to refresh.</param>
+        public static void InvalidateMap(IMap focusMap)
+        {
+            (focusMap as IActiveView)?.ScreenDisplay.Invalidate(null, true, (short)esriScreenCache.esriAllScreenCaches);
         }
 
         /// <summary>
@@ -191,6 +200,20 @@ namespace ArcmapSpy.Utils
         {
             Type appRefType = Type.GetTypeFromCLSID(typeof(AppRefClass).GUID);
             return Activator.CreateInstance(appRefType) as IApplication;
+        }
+
+        /// <summary>
+        /// Gets the reference scale of the focus map.
+        /// </summary>
+        /// <param name="defaultScale">This value is returned, if the special value 0.0 is set as
+        /// reference scale in ArcMap, meaning no scaling of styles.</param>
+        /// <returns>Reference scale.</returns>
+        public static double GetReferenceScale(double defaultScale = 0.0)
+        {
+            double result = GetFocusMap().ReferenceScale;
+            if (result == 0.0)
+                result = defaultScale;
+            return result;
         }
     }
 }

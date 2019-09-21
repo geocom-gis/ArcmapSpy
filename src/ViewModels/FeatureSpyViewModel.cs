@@ -122,7 +122,7 @@ namespace ArcmapSpy.ViewModels
             featureSelection = _layer as IFeatureSelection;
             featureSelection?.Add(_feature);
 
-            ArcmapUtils.RefreshMap(map);
+            ArcmapUtils.InvalidateMap(map);
         }
 
         private void FillColumnValues(List<ColumnInfoViewModel> columnValues, IFeature feature)

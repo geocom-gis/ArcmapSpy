@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ArcmapSpy.Views"
              xmlns:viewmodel="clr-namespace:ArcmapSpy.ViewModels"
+             xmlns:utils="clr-namespace:ArcmapSpy.Utils"
              mc:Ignorable="d"
              Padding="6"
              d:DesignHeight="360" d:DesignWidth="480">
@@ -17,6 +18,7 @@
         <Style x:Key="ImageEnabled" TargetType="Image">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Visibility" Value="Hidden"></Setter>
                     <Setter Property="Opacity" Value="0.25"></Setter>
                 </Trigger>
             </Style.Triggers>
@@ -34,7 +36,7 @@
             <DrawingImage.Drawing>
                 <DrawingGroup>
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="#a9a9a9" Geometry="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5C3,3.89 3.9,3 5,3H19M18,11H9.5L13,7.5L11.58,6.08L5.66,12L11.58,17.92L13,16.5L9.5,13H18V11Z" />
+                        <GeometryDrawing Brush="#4682b4" Geometry="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5C3,3.89 3.9,3 5,3H19M18,11H9.5L13,7.5L11.58,6.08L5.66,12L11.58,17.92L13,16.5L9.5,13H18V11Z" />
                     </DrawingGroup.Children>
                 </DrawingGroup>
             </DrawingImage.Drawing>
@@ -43,7 +45,43 @@
             <DrawingImage.Drawing>
                 <DrawingGroup>
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="#a9a9a9" Geometry="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C12.36,19.5 12.72,19.5 13.08,19.45C13.03,19.13 13,18.82 13,18.5C13,17.94 13.08,17.38 13.24,16.84C12.83,16.94 12.42,17 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12C17,12.29 16.97,12.59 16.92,12.88C17.58,12.63 18.29,12.5 19,12.5C20.17,12.5 21.31,12.84 22.29,13.5C22.56,13 22.8,12.5 23,12C21.27,7.61 17,4.5 12,4.5M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M18,14.5V17.5H15V19.5H18V22.5H20V19.5H23V17.5H20V14.5H18Z" />
+                        <GeometryDrawing Brush="#2e8b57" Geometry="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C12.36,19.5 12.72,19.5 13.08,19.45C13.03,19.13 13,18.82 13,18.5C13,17.94 13.08,17.38 13.24,16.84C12.83,16.94 12.42,17 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12C17,12.29 16.97,12.59 16.92,12.88C17.58,12.63 18.29,12.5 19,12.5C20.17,12.5 21.31,12.84 22.29,13.5C22.56,13 22.8,12.5 23,12C21.27,7.61 17,4.5 12,4.5M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M18,14.5V17.5H15V19.5H18V22.5H20V19.5H23V17.5H20V14.5H18Z" />
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="imgsrcLabelFeatures">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="#4682b4" Geometry="M20.58 9.33V13.55L19.17 12.14L10.31 21L8.91 19.59L17.72 10.73L16.31 9.33M7.59 11L10.22 8.39L5.34 6.14M4.5 4.22L15.61 8.63L14.16 10.13L11.96 9.19L8.39 12.75L9.33 14.91L7.83 16.41L3.42 5.25Z" />
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="imgsrcPointGeometry">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="#a9a9a9" Geometry="M12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8Z" />
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="imgsrcLineGeometry">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="#a9a9a9" Geometry="M3,14L3.5,14.07L8.07,9.5C7.89,8.85 8.06,8.11 8.59,7.59C9.37,6.8 10.63,6.8 11.41,7.59C11.94,8.11 12.11,8.85 11.93,9.5L14.5,12.07L15,12C15.18,12 15.35,12 15.5,12.07L19.07,8.5C19,8.35 19,8.18 19,8A2,2 0 0,1 21,6A2,2 0 0,1 23,8A2,2 0 0,1 21,10C20.82,10 20.65,10 20.5,9.93L16.93,13.5C17,13.65 17,13.82 17,14A2,2 0 0,1 15,16A2,2 0 0,1 13,14L13.07,13.5L10.5,10.93C10.18,11 9.82,11 9.5,10.93L4.93,15.5L5,16A2,2 0 0,1 3,18A2,2 0 0,1 1,16A2,2 0 0,1 3,14Z" />
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="imgsrcAreaGeometry">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="#a9a9a9" Geometry="M12,2.5L2,9.8L5.8,21.5H18.2L22,9.8L12,2.5Z" />
                     </DrawingGroup.Children>
                 </DrawingGroup>
             </DrawingImage.Drawing>
@@ -70,6 +108,31 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Stretch="None">
+                                <Image.Style>
+                                    <Style TargetType="{x:Type Image}">
+                                        <Style.Triggers>
+                                            <DataTrigger Value="{x:Static utils:GeometryBaseType.Point}" Binding="{Binding GeometryType}">
+                                                <Setter Property="Source" Value="{StaticResource imgsrcPointGeometry}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Value="{x:Static utils:GeometryBaseType.Line}" Binding="{Binding GeometryType}">
+                                                <Setter Property="Source" Value="{StaticResource imgsrcLineGeometry}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Value="{x:Static utils:GeometryBaseType.Area}" Binding="{Binding GeometryType}">
+                                                <Setter Property="Source" Value="{StaticResource imgsrcAreaGeometry}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <DataGridTextColumn Binding="{Binding Title}" ClipboardContentBinding="{x:Null}" Header="Title" Width="200"/>
                 <DataGridTextColumn Binding="{Binding Group}" ClipboardContentBinding="{x:Null}" Header="Group" Width="100"/>
                 <DataGridTextColumn Binding="{Binding RowCount}" ClipboardContentBinding="{x:Null}" Header="Rows" Width="92"/>
@@ -86,8 +149,17 @@
                 <DataGridTemplateColumn Header="">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding RemoveScaleRangeCommand}" IsEnabled="{Binding RemoveScaleRangeCommandVisible}" Background="Transparent" BorderThickness="0" ToolTip="Remove scale range">
+                            <Button Command="{Binding RemoveScaleRangeCommand}" IsEnabled="{Binding RemoveScaleRangeCommandEnabled}" Background="Transparent" BorderThickness="0" ToolTip="Show on all scales">
                                 <Image Source="{StaticResource imgsrcRemoveScaleRange}" Style="{StaticResource ImageEnabled}"/>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding CreateLabelsCommand}" Background="Transparent" BorderThickness="0" ToolTip="Label features with table name and id">
+                                <Image Source="{StaticResource imgsrcLabelFeatures}" />
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

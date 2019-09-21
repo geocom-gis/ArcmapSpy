@@ -7,8 +7,10 @@ using System;
 using System.Collections.Generic;
 using ESRI.ArcGIS.ArcMapUI;
 using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.Display;
 using ESRI.ArcGIS.Framework;
 using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
 
 namespace ArcmapSpy.Utils
 {
@@ -207,6 +209,49 @@ namespace ArcmapSpy.Utils
             {
                 IGroupLayer groupLayer = parentLayer as IGroupLayer;
                 groupLayer.Expanded = true;
+            }
+        }
+
+        /// <summary>
+        /// Tries to detect the main color used to draw the features of this layer.
+        /// </summary>
+        /// <param name="layer">The layer to get the color from.</param>
+        /// <returns>The color used by this layer.</returns>
+        public static IColor DetectLayerMainColor(IGeoFeatureLayer layer)
+        {
+            ISymbol symbol = null;
+            if (layer.Renderer is ISimpleRenderer simpleRenderer)
+                symbol = simpleRenderer.Symbol;
+            else if (layer.Renderer is IUniqueValueRenderer uniqueValueRenderer)
+                symbol = uniqueValueRenderer.DefaultSymbol;
+
+            if (symbol is ISimpleLineSymbol lineSymbol)
+                return lineSymbol.Color;
+            else if (symbol is ISimpleMarkerSymbol markerSymbol)
+                return markerSymbol.Color;
+            else
+                return new RgbColorClass { RGB = 0 };
+        }
+
+        /// <summary>
+        /// Determines the base geometry type of an esri geometry type.
+        /// </summary>
+        /// <param name="layer">Esri layer</param>
+        /// <returns>Base geometry type of the layer.</returns>
+        public static GeometryBaseType DetectLayerGeometryType(ILayer layer)
+        {
+            esriGeometryType? geometryType = (layer as IFeatureLayer)?.FeatureClass.ShapeType;
+            switch (geometryType)
+            {
+                case esriGeometryType.esriGeometryPoint:
+                case esriGeometryType.esriGeometryMultipoint:
+                    return GeometryBaseType.Point;
+                case esriGeometryType.esriGeometryPolyline:
+                    return GeometryBaseType.Line;
+                case esriGeometryType.esriGeometryPolygon:
+                    return GeometryBaseType.Area;
+                default:
+                    return GeometryBaseType.Unknown;
             }
         }
 

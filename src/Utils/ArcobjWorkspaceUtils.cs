@@ -68,14 +68,42 @@ namespace ArcmapSpy.Utils
         }
 
         /// <summary>
+        /// Extracts the table name from a qualified table name (e.g. qualifier.tablename).
+        /// If the the table name does not contain a qualifier, the table name itself is returned.
+        /// </summary>
+        /// <param name="tableName">Table name, which may include a qualifier.</param>
+        /// <returns>Table name without qualifier.</returns>
+        public static string UnqualifyTableName(string tableName)
+        {
+            if (string.IsNullOrEmpty(tableName))
+                return tableName;
+
+            int pos = tableName.LastIndexOf('.');
+            return (pos >= 0)
+                ? tableName.Remove(0, pos + 1)
+                : tableName;
+        }
+
+        /// <summary>
+        /// Gets the name of the GlobalId field if available, otherwise null.
+        /// </summary>
+        /// <param name="esriTable">The table to get the field name from.</param>
+        /// <returns>Name of the GlobalId field, or null if no such field exists.</returns>
+        public static string GetGlobalIdFieldName(ITable esriTable)
+        {
+            if ((esriTable is IClassEx classEx) && classEx.HasGlobalID)
+                return classEx.GlobalIDFieldName;
+            return null;
+        }
+
+        /// <summary>
         /// Determines whether an Esri table has a GlobalId field or not.
         /// </summary>
         /// <param name="esriTable">The Esri table object to check.</param>
         /// <returns>Returns true if a GlobalId field is available, otherwise false.</returns>
         public static bool TableHasGlobalId(ITable esriTable)
         {
-            IClassEx classEx = esriTable as IClassEx;
-            if (classEx != null)
+            if (esriTable is IClassEx classEx)
                 return classEx.HasGlobalID;
             return false;
         }

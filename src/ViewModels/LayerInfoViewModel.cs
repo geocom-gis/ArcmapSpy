@@ -8,6 +8,8 @@ using System.Linq;
 using System.Windows.Input;
 using ArcmapSpy.Utils;
 using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.Display;
+using ESRI.ArcGIS.Geodatabase;
 using GalaSoft.MvvmLight.Command;
 
 namespace ArcmapSpy.ViewModels
@@ -26,6 +28,7 @@ namespace ArcmapSpy.ViewModels
         {
             JumpToLayerCommand = new RelayCommand(JumpToLayer);
             RemoveScaleRangeCommand = new RelayCommand(RemoveScaleRange);
+            CreateLabelsCommand = new RelayCommand(CreateLabels);
         }
 
         /// <summary>
@@ -97,6 +100,14 @@ namespace ArcmapSpy.ViewModels
         public string RowCount { get; set; }
 
         /// <summary>
+        /// Gets the geometry base type of the layer.
+        /// </summary>
+        public GeometryBaseType GeometryType
+        {
+            get { return ArcmapLayerUtils.DetectLayerGeometryType(Layer); }
+        }
+
+        /// <summary>
         /// Gets the command which can show the matching layer in ArcMap.
         /// </summary>
         public ICommand JumpToLayerCommand { get; private set; }
@@ -115,20 +126,101 @@ namespace ArcmapSpy.ViewModels
         /// </summary>
         public ICommand RemoveScaleRangeCommand { get; private set; }
 
-        /// <summary>
-        /// Removes the scale range of the layer.
-        /// </summary>
         private void RemoveScaleRange()
         {
             Layer.MinimumScale = 0;
             Layer.MaximumScale = 0;
             RaisePropertyChanged(nameof(ScaleRange));
-            RaisePropertyChanged(nameof(RemoveScaleRangeCommandVisible));
+            RaisePropertyChanged(nameof(RemoveScaleRangeCommandEnabled));
         }
 
-        public bool RemoveScaleRangeCommandVisible
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="RemoveScaleRangeCommand"/> is enabled or not.
+        /// </summary>
+        public bool RemoveScaleRangeCommandEnabled
         {
             get { return !string.IsNullOrEmpty(ScaleRange); }
+        }
+
+        /// <summary>
+        /// Gets the command which can add labels to the features.
+        /// </summary>
+        public ICommand CreateLabelsCommand { get; private set; }
+
+        private void CreateLabels()
+        {
+            if (Layer is IGeoFeatureLayer geoFeatureLayer)
+            {
+                const double TextSizePt = 9.0;
+                const double GoodLookingScale = 500.0;
+                double referenceScale = ArcmapUtils.GetReferenceScale(GoodLookingScale);
+                string tableName = ArcobjWorkspaceUtils.UnqualifyTableName(ArcobjWorkspaceUtils.GetTableName(geoFeatureLayer.FeatureClass as IDataset));
+                string oidFieldName = geoFeatureLayer.FeatureClass.OIDFieldName;
+                string globalIdFieldName = ArcobjWorkspaceUtils.GetGlobalIdFieldName(geoFeatureLayer.FeatureClass as ITable);
+                string expression = FormatLabelExpression(tableName, oidFieldName, globalIdFieldName);
+
+                ITextSymbol textSymbol = new TextSymbolClass();
+                textSymbol.Color = ArcmapLayerUtils.DetectLayerMainColor(geoFeatureLayer);
+                textSymbol.Size = TextSizePt / referenceScale * GoodLookingScale;
+
+                // Remove existing annotations
+                geoFeatureLayer.DisplayAnnotation = false;
+                geoFeatureLayer.AnnotationProperties.Clear();
+
+                IAnnotateLayerProperties annotateLayerProperties = new LabelEngineLayerPropertiesClass();
+                annotateLayerProperties.UseOutput = true;
+                annotateLayerProperties.LabelWhichFeatures = esriLabelWhichFeatures.esriVisibleFeatures;
+                annotateLayerProperties.CreateUnplacedElements = true;
+
+                ILabelEngineLayerProperties2 labelEngineProperties = (ILabelEngineLayerProperties2)annotateLayerProperties;
+                labelEngineProperties.ExpressionParser = new AnnotationVBScriptEngineClass();
+                labelEngineProperties.Expression = expression;
+                labelEngineProperties.Symbol = textSymbol;
+
+                IBasicOverposterLayerProperties overposterProperties = labelEngineProperties.BasicOverposterLayerProperties;
+                overposterProperties.GenerateUnplacedLabels = true;
+                overposterProperties.NumLabelsOption = esriBasicNumLabelsOption.esriOneLabelPerShape;
+                overposterProperties.PointPlacementOnTop = true;
+                overposterProperties.PointPlacementMethod = esriOverposterPointPlacementMethod.esriSpecifiedAngles;
+                overposterProperties.PointPlacementAngles = new[] { 30.0 };
+                overposterProperties.LineLabelPosition = CreateLineLabelPosition();
+
+                if (labelEngineProperties.OverposterLayerProperties is IOverposterLayerProperties2 overposterProperties2)
+                    overposterProperties2.TagUnplaced = false; // The "place overlapping labels" option
+
+                // Show new annotation in map
+                geoFeatureLayer.AnnotationProperties.Add(annotateLayerProperties);
+                geoFeatureLayer.DisplayAnnotation = true;
+                ArcmapUtils.InvalidateMap(ArcmapUtils.GetFocusMap());
+            }
+        }
+
+        private static string FormatLabelExpression(string tableName, string oidFieldName, string globalIdFieldName)
+        {
+            if (!string.IsNullOrEmpty(globalIdFieldName))
+                return string.Format(@"""{0} ["" & [{1}] & ""] "" & Left([{2}], 9) & ""…}}""", tableName, oidFieldName, globalIdFieldName);
+            else
+                return string.Format(@"""{0} ["" & [{1}] & ""]""", tableName, oidFieldName);
+        }
+
+        private static ILineLabelPosition CreateLineLabelPosition()
+        {
+            return new LineLabelPositionClass
+            {
+                ProduceCurvedLabels = false,
+                Above = true,
+                Below = false,
+                OnTop = false,
+                Left = false,
+                Right = false,
+                InLine = true,
+                AtStart = false,
+                AtEnd = false,
+                Parallel = true,
+                Perpendicular = false,
+                Horizontal = false,
+                Offset = 0.0,
+            };
         }
 
         /// <summary>
@@ -136,12 +228,7 @@ namespace ArcmapSpy.ViewModels
         /// </summary>
         private List<ILayer> ParentLayers
         {
-            get
-            {
-                if (_parentLayers == null)
-                    _parentLayers = ArcmapLayerUtils.FindParentLayers(Layer, ArcmapUtils.GetFocusMap());
-                return _parentLayers;
-            }
+            get { return _parentLayers ?? (_parentLayers = ArcmapLayerUtils.FindParentLayers(Layer, ArcmapUtils.GetFocusMap())); }
         }
     }
 }

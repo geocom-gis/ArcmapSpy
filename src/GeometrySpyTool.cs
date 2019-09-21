@@ -86,7 +86,7 @@ namespace ArcmapSpy
                 // Don't let the exeption escape to arcgis.
                 ResetPickTool();
             }
-            ArcmapUtils.RefreshMap(ArcmapUtils.GetFocusMap());
+            ArcmapUtils.InvalidateMap(ArcmapUtils.GetFocusMap());
         }
 
         private ArcmapPick LazyLoadPickTool()
