@@ -128,8 +128,12 @@ namespace ArcmapSpy.ViewModels
 
         private void RemoveScaleRange()
         {
-            Layer.MinimumScale = 0;
-            Layer.MaximumScale = 0;
+            if ((Layer.MinimumScale != 0.0) || (Layer.MaximumScale != 0.0))
+            {
+                // The previous values will still be accessible by ILayerGeneralProperties.LastMinimumScale.
+                Layer.MinimumScale = 0;
+                Layer.MaximumScale = 0;
+            }
             RaisePropertyChanged(nameof(ScaleRange));
             RaisePropertyChanged(nameof(RemoveScaleRangeCommandEnabled));
         }

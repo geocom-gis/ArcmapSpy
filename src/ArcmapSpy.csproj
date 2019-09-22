@@ -76,6 +76,7 @@
     </Reference>
     <Reference Include="ESRI.ArcGIS.Desktop.AddIns">
       <HintPath>$(ArcmapDllPath)\ESRI.ArcGIS.Desktop.AddIns.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Display">
       <HintPath>$(ArcmapDllPath)\ESRI.ArcGIS.Display.dll</HintPath>

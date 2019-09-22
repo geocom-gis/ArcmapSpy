@@ -149,7 +149,7 @@
                 <DataGridTemplateColumn Header="">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding RemoveScaleRangeCommand}" IsEnabled="{Binding RemoveScaleRangeCommandEnabled}" Background="Transparent" BorderThickness="0" ToolTip="Show on all scales">
+                            <Button Command="{Binding RemoveScaleRangeCommand}" IsEnabled="{Binding RemoveScaleRangeCommandEnabled}" Background="Transparent" BorderThickness="0" ToolTip="Show at all scales">
                                 <Image Source="{StaticResource imgsrcRemoveScaleRange}" Style="{StaticResource ImageEnabled}"/>
                             </Button>
                         </DataTemplate>
@@ -158,7 +158,7 @@
                 <DataGridTemplateColumn Header="">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding CreateLabelsCommand}" Background="Transparent" BorderThickness="0" ToolTip="Label features with table name and id">
+                            <Button Command="{Binding CreateLabelsCommand}" Background="Transparent" BorderThickness="0" ToolTip="Place labels with table name and id">
                                 <Image Source="{StaticResource imgsrcLabelFeatures}" />
                             </Button>
                         </DataTemplate>

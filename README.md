@@ -22,6 +22,10 @@ Since this is an AddIn for the ArcGIS desktop, an installed version of ArcMap 10
 
 Offers a full text search on the layers in the ArcMap table of content (TOC). This way you can easily find all layers belonging to a given database table and can jump to the layer (expand and select in TOC). It also gives an overview on the number of existing rows and shows whether a filter is active.
 
+![LayerSpy](screenshots/LayerSpyLabeling.png)
+
+The labeling command can quickly place labels containing table name and id, to make it easier to spot certain features on the map.
+
 ### ApplicationSpy
 
 ![ApplicationSpy](screenshots/ApplicationSpy.png)

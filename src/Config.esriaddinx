@@ -2,7 +2,7 @@
   <Name>ArcmapSpy</Name>
   <AddInID>{e6860651-3588-47ea-bf4f-17479c011f19}</AddInID>
   <Description>Explores the internals of a running ArcMap instance.</Description>
-  <Version>2.1.0</Version>
+  <Version>2.2.0</Version>
   <Image>Images\ArcmapSpy.png</Image>
   <Author>Stoeckli Martin</Author>
   <Company>Geocom Informatik AG</Company>
