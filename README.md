@@ -4,6 +4,8 @@ ArcmapSpy is an AddIn for the Esri ArcMap software and provides insight into the
 
 You can [download the latest version](https://github.com/geocom-gis/ArcmapSpy/releases/latest) of ArcmapSpy in the release section.
 
+Watch this [video on YouTube](https://youtu.be/FJigtyt5mIs) to see ArcmapSpy in action.
+
 For more information please contact: support@geocom.ch.
 
 #### DISCLAMER: Please be aware that this product is not supported. Further information can be found in the license file.
