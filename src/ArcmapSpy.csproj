@@ -31,7 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ArcmapDllPath>$(MSBuildProgramFiles32)\ArcGIS\Desktop10.6\bin</ArcmapDllPath>
+    <ArcmapDllPath>$(MSBuildProgramFiles32)\ArcGIS\Desktop10.8\bin</ArcmapDllPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

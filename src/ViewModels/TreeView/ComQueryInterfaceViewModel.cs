@@ -813,12 +813,6 @@ namespace ArcmapSpy.ViewModels.TreeView
             AddAsInterface<IRealTimeFeedSimulator>();
             AddAsInterface<IRealTimeFeedManager>();
             AddAsInterface<IRealTimeFeedManagerEvents>();
-            AddAsInterface<IMobileServer>();
-            AddAsInterface<IMobileSync>();
-            AddAsInterface<IMobileMapInfo>();
-            AddAsInterface<IMobileLayerInfos>();
-            AddAsInterface<IMobileLayerInfo>();
-            AddAsInterface<IMobileSync2>();
             AddAsInterface<IWMSServer>();
             AddAsInterface<IWCSServer>();
             AddAsInterface<IWMSLayer>();
